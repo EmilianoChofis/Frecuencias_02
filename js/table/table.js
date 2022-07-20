@@ -1,6 +1,4 @@
-import {
-  row
-} from './row.js';
+import { row } from './row.js';
 
 /**
  * It takes an array of objects and returns a string of HTML
@@ -9,7 +7,7 @@ import {
  */
 
 export const table = (data) => {
-  return `<div class="container"> 
+	return `<div class="container table-responsive"> 
     <table class="table">
     <thead>
       <tr class="text-primary">
@@ -24,9 +22,7 @@ export const table = (data) => {
       </tr>
     </thead>
     <tbody>
-        ${data
-          .map((rowData, i) => row(rowData, i))
-          .join('')}
+        ${data.map((rowData, i) => row(rowData, i)).join('')}
       <tr>
         <td >
           
@@ -34,13 +30,9 @@ export const table = (data) => {
         <td >
           
         </td>
-        <td >
+        <td>
           <p class="fw-bold text-center">
-            ${data.reduce(
-              (acc, rowData) =>
-              acc + rowData.frequency,
-              0
-            )}
+            ${data.reduce((acc, rowData) => acc + rowData.frequency, 0)}
           </p>
         </td>
         <td >
@@ -48,11 +40,7 @@ export const table = (data) => {
         </td>
         <td>
           <p class="fw-bold text-center">
-            ${data.reduce(
-              (acc, rowData) =>
-                acc + rowData.frecuencyRelative,
-              0
-            )}
+            ${data.reduce((acc, rowData) => acc + rowData.frecuencyRelative, 0)}
           </p>
         </td>
         <td>
@@ -60,18 +48,12 @@ export const table = (data) => {
         </td>
         <td>
           <p class="fw-bold text-center">
-            ${data.reduce(
-              (acc, rowData) => acc + rowData.fx,
-              0
-            )}
+            ${data.reduce((acc, rowData) => acc + rowData.fx, 0)}
           </p>
         </td>
         <td>
           <p class="fw-bold text-center">
-            ${data.reduce(
-              (acc, rowData) => acc + rowData.fx2,
-              0
-            )}
+            ${data.reduce((acc, rowData) => acc + rowData.fx2, 0)}
           </p>
         </td>
     </tbody>

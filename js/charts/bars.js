@@ -24,7 +24,7 @@ const destroyChartIfNecessary = (chartId) => {
 };
 
 const showChart = (labels, data, backgroundColor, borderColor) => {
-	console.log(labels, data, backgroundColor, borderColor);
+	// console.log(labels, data, backgroundColor, borderColor);
 	destroyChartIfNecessary('myChart');
 	const ctx = document.getElementById('myChart').getContext('2d');
 	const myChart = new Chart(ctx, {

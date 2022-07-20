@@ -1,19 +1,16 @@
 const getFrequencies = (data) => {
 	const frequencies = [];
-	let frequenciesSum = 0;
 	data.map((row) => {
-		frequencies.push(row.frequency + frequenciesSum);
-		frequenciesSum += row.frequency;
+		frequencies.push(row.frequency);
 	});
 
-	console.log(frequenciesSum);
 	return frequencies;
 };
 
-export const showOjivaChart = (data) => {
+export const showLineChart = (data) => {
 	let labels = [];
 	let dataChart = getFrequencies(data);
-	console.log(dataChart);
+	// console.log(dataChart);
 	// let backgroundColor = [];
 	// let borderColor = [];
 
@@ -30,7 +27,7 @@ export const showOjivaChart = (data) => {
 				data: dataChart,
 				fill: false,
 				borderColor: 'rgb(75, 192, 192)',
-				tension: 0.5,
+				tension: 0.1,
 			},
 		],
 	};
@@ -38,9 +35,16 @@ export const showOjivaChart = (data) => {
 	const config = {
 		type: 'line',
 		data: dataLine,
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true,
+				},
+			},
+		},
 	};
 
-	ojivaChart(config);
+	lineChart(config);
 };
 
 const destroyChartIfNecessary = (chartId) => {
@@ -51,9 +55,9 @@ const destroyChartIfNecessary = (chartId) => {
 };
 
 //Create line chart
-export const ojivaChart = (config) => {
+const lineChart = (config) => {
 	// console.log(labels, data, backgroundColor, borderColor);
-	destroyChartIfNecessary('ojivaChart');
-	const ctx = document.getElementById('ojivaChart').getContext('2d');
+	destroyChartIfNecessary('lineChart');
+	const ctx = document.getElementById('lineChart').getContext('2d');
 	const myChart = new Chart(ctx, config);
 };

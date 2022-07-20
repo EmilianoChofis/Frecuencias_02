@@ -5,6 +5,11 @@ export const backgroundColorChart = [
 	'rgba(75, 192, 192, 0.2)',
 	'rgba(153, 102, 255, 0.2)',
 	'rgba(255, 159, 64, 0.2)',
+	'rgba(107, 220, 80, 0.2)',
+	'rgba(95, 173, 191, 0.2)',
+	'rgba(250, 73, 73, 0.2)',
+	'rgba(121, 87, 212, 0.2)',
+	'rgba(248, 196, 113, 0.2)',
 ];
 
 export const borderColorChart = [
@@ -14,4 +19,9 @@ export const borderColorChart = [
 	'rgba(75, 192, 192, 1)',
 	'rgba(153, 102, 255, 1)',
 	'rgba(255, 159, 64, 1)',
+	'rgba(107, 220, 80, 1)',
+	'rgba(95, 173, 191, 1)',
+	'rgba(250, 73, 73, 1)',
+	'rgba(121, 87, 212, 1)',
+	'rgba(248, 196, 113, 1)',
 ];

@@ -1,4 +1,3 @@
-
 /**
  * It takes a data object and an index, and returns a string of HTML.
  * @param data - is the data that is being passed to the function
@@ -15,9 +14,7 @@ export const row = (data, i) => {
             </td>
             <td >
                 <p class="text-center">
-                ${
-					data.initialInterval
-				} - ${data.finalInterval}
+                ${data.initialInterval} - ${data.finalInterval}
                 </p>
             </td>
             <td>
@@ -27,21 +24,17 @@ export const row = (data, i) => {
             </td>
             <td>
                 <p class="text-center">
-                    ${data.pointMedian}
+                    ${data.middlePoint}
                 </p>
             </td>
             <td>
                 <p class="text-center">
-                    ${
-                        data.frecuencyRelative
-                    }
+                    ${data.frecuencyRelative}
                 </p>
             </td>
             <td>
                 <p class="text-center">
-                    ${
-					    data.frecuencyAcumulated
-				    }
+                    ${data.frecuencyAcumulated}
                 </p>
             </td>
             <td >
