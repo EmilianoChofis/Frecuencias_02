@@ -1,0 +1,19 @@
+.custom-thead {
+	background-color: #f3f4f6;
+	font-weight: bold;
+	text-align: center;
+
+	font-size: 20px;
+}
+
+.custom-thead th {
+	color: rgb(75, 85, 99, 1);
+}
+
+.custom-thead tr {
+	border-bottom: 4px solid #eceffa;
+}
+
+table tr {
+	border-bottom: 4px solid #eceffa;
+}

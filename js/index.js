@@ -9,6 +9,9 @@ import { media, mediana, moda, sesgo } from './func/mtc.js';
 import { calcIntervalClass } from './utils/calcIntervalClass.js';
 import { orderData } from './utils/orderData.js';
 import { formatData } from './utils/formatData.js';
+import { getMax } from './utils/getMax.js';
+import { getMin } from './utils/getMin.js';
+import { getStandartDeviation, getVariance } from './func/medidasDispersion.js';
 
 const form = document.getElementById('form');
 const tableHtml = document.getElementById('table');
@@ -17,11 +20,18 @@ const medianaTd = document.getElementById('mediana');
 const modaTd = document.getElementById('moda');
 const sesgoTD = document.getElementById('sesgo');
 
+const otherValuesContainer = document.getElementById('other-values');
+const varianceTd = document.getElementById('variance');
+const standartDeviationTd = document.getElementById('standartDeviation');
+
 const frequency = (data, sumInterval = 1) => {
 	const n = data.length;
 	let classes;
-	const maxValue = Math.max(...data);
-	const minValue = Math.min(...data);
+	let maxValue = getMax(data);
+	let minValue = getMin(data);
+	// const maxValue = Math.max(...data);
+	// const minValue = Math.min(...data);
+	// console.log('maxValue: ' + maxValue + ' minValue: ' + minValue);
 
 	/* Calculating the number of classes. */
 	for (let i = 0; i <= data.length; i++) {
@@ -31,8 +41,10 @@ const frequency = (data, sumInterval = 1) => {
 			break;
 		}
 	}
-
+	// console.log(classes);
 	const intervalClass = calcIntervalClass(maxValue, minValue, n, sumInterval);
+	console.log(intervalClass);
+	// console.log('intervalClass: ' + intervalClass);
 	const initialValue = minValue === 1 ? 0 : minValue;
 
 	let rowsData = [];
@@ -58,6 +70,7 @@ const frequency = (data, sumInterval = 1) => {
 		const frecuencyRelative = frequency / n;
 
 		/* Calculating the accumulated frequency of each class. */
+		// console.log('frequency ', frequency);
 		const frecuencyAcumulated =
 			rowsData.length > 0
 				? frequency + rowsData[rowsData.length - 1].frecuencyAcumulated
@@ -65,6 +78,7 @@ const frequency = (data, sumInterval = 1) => {
 
 		const fx = frequency * middlePoint;
 		const fx2 = Math.pow(fx, 2);
+		// console.log('frecuencyAcumulated', frecuencyAcumulated);
 
 		rowsData.push({
 			class: i + 1,
@@ -77,20 +91,31 @@ const frequency = (data, sumInterval = 1) => {
 			fx,
 			fx2,
 		});
+
+		if (
+			i === classes - 1 &&
+			rowsData[rowsData.length - 1].frecuencyAcumulated != n
+		) {
+			classes++;
+			console.log(classes);
+		}
 	}
 
 	/* Summing the frequency of each class. */
 	const nAux = rowsData.reduce((acc, curr) => acc + curr.frequency, 0);
+	// console.log(nAux);
 
-	// If the sum of the frequencies is lower than the total values, the intervals add 2
-	if (nAux < n) {
-		return frequency(data, 2);
-	}
+	// // If the sum of the frequencies is lower than the total values, the intervals add 2
+	// if (nAux < n) {
+	// 	// console.log('Entra');
+	// 	return frequency(data, 2);
+	// }
 
-	//If is bigger than the total values, the intervals add 0
-	if (nAux > n) {
-		return frequency(data, 0);
-	}
+	// //If is bigger than the total values, the intervals add 0
+	// if (nAux > n) {
+	// 	// console.log('Entra 2');
+	// 	return frequency(data, 0);
+	// }
 
 	/**
 	 * If the frequency property of the row object is equal to zero, return true, otherwise return false.
@@ -133,9 +158,21 @@ form.addEventListener('submit', (e) => {
 
 	// Ordering the data
 	const orderedData = orderData(arrData);
+	const intOrderedData = orderedData.map((number) => parseInt(number));
 
 	// Calculating each class
-	const frequencyData = frequency(orderedData);
+	let frequencyData = frequency(intOrderedData);
+	const n = frequencyData
+		.map((row) => row.frequency)
+		.reduce((acc, curr) => acc + curr, 0);
+	if (intOrderedData.length != n) {
+		console.log('entra');
+		frequencyData = frequency(intOrderedData, 5);
+	}
+
+	// Calculating the measures of dispersion
+	const variance = getVariance(frequencyData, intOrderedData);
+	const standartDeviation = getStandartDeviation(variance);
 
 	// Charts
 	showBarChart(frequencyData);
@@ -145,9 +182,15 @@ form.addEventListener('submit', (e) => {
 	// Table
 	tableHtml.innerHTML = table(frequencyData);
 
+	otherValuesContainer.classList.remove('d-none');
+
 	// MTC
 	mediaTd.innerHTML = media(frequencyData);
 	medianaTd.innerHTML = mediana(frequencyData);
 	modaTd.innerHTML = moda(arrData);
 	sesgoTD.innerHTML = sesgo(frequencyData);
+
+	//Measures of dispersion
+	varianceTd.innerHTML = variance;
+	standartDeviationTd.innerHTML = standartDeviation;
 });
